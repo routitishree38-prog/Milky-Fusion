@@ -1,14 +1,15 @@
 <!-- ec\app\templates\app\contact.html -->
 {% extends "app/base.html" %}
 {% load static %}
-{% block title %}Contact Us - Manguli Dairy{% endblock title %}
+{% block title %}Contact Us - Milky Fusion{% endblock title %}
 
 {% block banner-slider %}
 <!-- Page Header -->
 <div class="page-header position-relative">
-    <img src="{% static 'app/images/banner/contact-banner.jpg' %}" class="w-100" alt="Contact Manguli Dairy" style="height: 400px; object-fit: cover;">
-    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
-         style="background: rgba(0,0,0,0.5);">
+    <img src="{% static 'app/images/banner/b8.png' %}" class="w-100 h-100" alt="Contact Manguli Dairy"
+        style="height: 400px; object-fit: cover;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+        style="background: rgba(0,0,0,0.5);">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bold" data-aos="fade-up">Get In Touch</h1>
             <p class="lead" data-aos="fade-up" data-aos-delay="200">We'd love to hear from you</p>
@@ -77,36 +78,37 @@
                 <div class="card-body p-4">
                     <form id="contactForm" method="post" action="{% url 'contact' %}">
                         {% csrf_token %}
-                        
+
                         <!-- Success Message (hidden by default) -->
-                        <div class="alert alert-success alert-dismissible fade show d-none" id="successMessage" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show d-none" id="successMessage"
+                            role="alert">
                             <i class="fas fa-check-circle me-2"></i>
                             Your message has been sent successfully! We'll contact you soon.
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
-                        
+
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">
                                     <i class="fas fa-user text-primary me-2"></i>Your Name
                                 </label>
-                                <input type="text" class="form-control form-control-lg" name="name" 
-                                       placeholder="John Doe" required>
+                                <input type="text" class="form-control form-control-lg" name="name"
+                                    placeholder="John Doe" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">
                                     <i class="fas fa-envelope text-primary me-2"></i>Email Address
                                 </label>
-                                <input type="email" class="form-control form-control-lg" name="email" 
-                                       placeholder="john@example.com" required>
+                                <input type="email" class="form-control form-control-lg" name="email"
+                                    placeholder="john@example.com" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">
                                     <i class="fas fa-phone text-primary me-2"></i>Phone Number
                                 </label>
-                                <input type="tel" class="form-control form-control-lg" name="phone" 
-                                       placeholder="98765 43210" pattern="[0-9]{10}" 
-                                       title="Please enter a valid 10-digit phone number">
+                                <input type="tel" class="form-control form-control-lg" name="phone"
+                                    placeholder="98765 43210" pattern="[0-9]{10}"
+                                    title="Please enter a valid 10-digit phone number">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">
@@ -126,15 +128,14 @@
                                 <label class="form-label fw-semibold">
                                     <i class="fas fa-comment text-primary me-2"></i>Your Message
                                 </label>
-                                <textarea class="form-control form-control-lg" name="message" 
-                                          rows="5" placeholder="Write your message here..." 
-                                          required></textarea>
+                                <textarea class="form-control form-control-lg" name="message" rows="5"
+                                    placeholder="Write your message here..." required></textarea>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="agreeTerms" required>
                                     <label class="form-check-label small" for="agreeTerms">
-                                        I agree to the <a href="#" class="text-primary">Privacy Policy</a> and 
+                                        I agree to the <a href="#" class="text-primary">Privacy Policy</a> and
                                         <a href="#" class="text-primary">Terms of Service</a>
                                     </label>
                                 </div>
@@ -160,21 +161,9 @@
                         Business Hours
                     </h5>
                     <div class="hours-list">
-                        <div class="d-flex justify-content-between mb-3 pb-2 border-bottom">
-                            <span class="text-muted">Monday - Friday</span>
+                        <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                            <span class="text-muted">All Day</span>
                             <span class="fw-semibold">8:00 AM - 8:00 PM</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3 pb-2 border-bottom">
-                            <span class="text-muted">Saturday</span>
-                            <span class="fw-semibold">9:00 AM - 6:00 PM</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3 pb-2 border-bottom">
-                            <span class="text-muted">Sunday</span>
-                            <span class="fw-semibold">10:00 AM - 4:00 PM</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span class="text-muted">Holidays</span>
-                            <span class="fw-semibold text-danger">Closed</span>
                         </div>
                     </div>
                 </div>
@@ -213,12 +202,10 @@
             <!-- Map -->
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="ratio ratio-16x9">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.512345678901!2d85.9876543!3d19.9876543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDU5JzE1LjYiTiA4NcKwNTknMjUuNCJF!5e0!3m2!1sen!2sin!4v1234567890" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3741.6851611922984!2d85.8849201!3d20.3132949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a190a4b3fffffff%3A0x2dfa67798e4b5332!2sGlobal%20Institute%20Of%20Management!5e0!3m2!1sen!2sin!4v1776246821526!5m2!1sen!2sin"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
                 <div class="card-body p-3 text-center">
                     <a href="https://maps.google.com" target="_blank" class="btn btn-outline-primary btn-sm">
@@ -235,7 +222,7 @@
             <h2 class="display-6 fw-bold">Frequently Asked Questions</h2>
             <p class="lead text-muted">Quick answers to common questions</p>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-lg-6" data-aos="fade-up">
                 <div class="faq-item bg-white p-4 rounded-4 shadow-sm">
@@ -243,7 +230,8 @@
                         <i class="fas fa-question-circle text-primary me-2"></i>
                         How fresh are your products?
                     </h5>
-                    <p class="text-muted mb-0">All our products are delivered within 24 hours of production. We maintain strict cold chain throughout delivery.</p>
+                    <p class="text-muted mb-0">All our products are delivered within 24 hours of production. We maintain
+                        strict cold chain throughout delivery.</p>
                 </div>
             </div>
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
@@ -252,7 +240,8 @@
                         <i class="fas fa-question-circle text-primary me-2"></i>
                         Do you deliver to my area?
                     </h5>
-                    <p class="text-muted mb-0">We currently deliver across Puri district and nearby areas. Enter your pincode at checkout to check availability.</p>
+                    <p class="text-muted mb-0">We currently deliver across Puri district and nearby areas. Enter your
+                        pincode at checkout to check availability.</p>
                 </div>
             </div>
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
@@ -261,7 +250,8 @@
                         <i class="fas fa-question-circle text-primary me-2"></i>
                         What is your return policy?
                     </h5>
-                    <p class="text-muted mb-0">We accept returns within 24 hours of delivery if you're not satisfied with the quality. Contact our support team.</p>
+                    <p class="text-muted mb-0">We accept returns within 24 hours of delivery if you're not satisfied
+                        with the quality. Contact our support team.</p>
                 </div>
             </div>
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
@@ -270,7 +260,8 @@
                         <i class="fas fa-question-circle text-primary me-2"></i>
                         How can I become a partner?
                     </h5>
-                    <p class="text-muted mb-0">We're always looking for retail partners. Fill the contact form with "Partnership" as subject, and we'll get back to you.</p>
+                    <p class="text-muted mb-0">We're always looking for retail partners. Fill the contact form with
+                        "Partnership" as subject, and we'll get back to you.</p>
                 </div>
             </div>
         </div>
@@ -281,16 +272,20 @@
     .contact-card {
         transition: all 0.3s ease;
     }
+
     .contact-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
     }
+
     .icon-box {
         transition: transform 0.3s ease;
     }
+
     .contact-card:hover .icon-box {
         transform: scale(1.1);
     }
+
     .social-link {
         width: 45px;
         height: 45px;
@@ -301,35 +296,62 @@
         color: white;
         transition: all 0.3s ease;
     }
-    .social-link.facebook { background: #1877f2; }
-    .social-link.twitter { background: #1da1f2; }
-    .social-link.instagram { background: #e4405f; }
-    .social-link.linkedin { background: #0077b5; }
-    .social-link.youtube { background: #ff0000; }
-    .social-link.whatsapp { background: #25d366; }
+
+    .social-link.facebook {
+        background: #1877f2;
+    }
+
+    .social-link.twitter {
+        background: #1da1f2;
+    }
+
+    .social-link.instagram {
+        background: #e4405f;
+    }
+
+    .social-link.linkedin {
+        background: #0077b5;
+    }
+
+    .social-link.youtube {
+        background: #ff0000;
+    }
+
+    .social-link.whatsapp {
+        background: #25d366;
+    }
+
     .social-link:hover {
         transform: translateY(-5px) scale(1.1);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
+
     .faq-item {
         transition: all 0.3s ease;
     }
+
     .faq-item:hover {
         transform: translateX(10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
     }
-    .form-control, .form-select {
+
+    .form-control,
+    .form-select {
         border: 2px solid #e9ecef;
         transition: all 0.3s ease;
     }
-    .form-control:focus, .form-select:focus {
+
+    .form-control:focus,
+    .form-select:focus {
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(43, 90, 58, 0.1);
     }
+
     #submitBtn {
         position: relative;
         overflow: hidden;
     }
+
     #submitBtn:hover {
         transform: translateY(-3px);
         box-shadow: 0 5px 20px rgba(43, 90, 58, 0.3);
@@ -337,59 +359,59 @@
 </style>
 
 <script>
-$(document).ready(function() {
-    // Form validation
-    $('#contactForm').on('submit', function(e) {
-        e.preventDefault();
-        
-        var name = $('input[name="name"]').val();
-        var email = $('input[name="email"]').val();
-        var phone = $('input[name="phone"]').val();
-        var subject = $('select[name="subject"]').val();
-        var message = $('textarea[name="message"]').val();
-        var agree = $('#agreeTerms').is(':checked');
-        
-        // Basic validation
-        if (!name || !email || !subject || !message || !agree) {
-            showNotification('Please fill all required fields', 'error');
-            return false;
-        }
-        
-        // Email validation
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return false;
-        }
-        
-        // Phone validation (if provided)
-        if (phone && !/^\d{10}$/.test(phone)) {
-            showNotification('Please enter a valid 10-digit phone number', 'error');
-            return false;
-        }
-        
-        // Show loading state
-        var $btn = $('#submitBtn');
-        var originalText = $btn.html();
-        $btn.html('<i class="fas fa-spinner fa-spin me-2"></i>Sending...').prop('disabled', true);
-        
-        // Simulate form submission (replace with actual AJAX)
-        setTimeout(function() {
-            $('#successMessage').removeClass('d-none');
-            $('#contactForm')[0].reset();
-            $btn.html(originalText).prop('disabled', false);
-            
-            // Scroll to success message
-            $('html, body').animate({
-                scrollTop: $('#successMessage').offset().top - 100
-            }, 500);
-        }, 1500);
+    $(document).ready(function () {
+        // Form validation
+        $('#contactForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var name = $('input[name="name"]').val();
+            var email = $('input[name="email"]').val();
+            var phone = $('input[name="phone"]').val();
+            var subject = $('select[name="subject"]').val();
+            var message = $('textarea[name="message"]').val();
+            var agree = $('#agreeTerms').is(':checked');
+
+            // Basic validation
+            if (!name || !email || !subject || !message || !agree) {
+                showNotification('Please fill all required fields', 'error');
+                return false;
+            }
+
+            // Email validation
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return false;
+            }
+
+            // Phone validation (if provided)
+            if (phone && !/^\d{10}$/.test(phone)) {
+                showNotification('Please enter a valid 10-digit phone number', 'error');
+                return false;
+            }
+
+            // Show loading state
+            var $btn = $('#submitBtn');
+            var originalText = $btn.html();
+            $btn.html('<i class="fas fa-spinner fa-spin me-2"></i>Sending...').prop('disabled', true);
+
+            // Simulate form submission (replace with actual AJAX)
+            setTimeout(function () {
+                $('#successMessage').removeClass('d-none');
+                $('#contactForm')[0].reset();
+                $btn.html(originalText).prop('disabled', false);
+
+                // Scroll to success message
+                $('html, body').animate({
+                    scrollTop: $('#successMessage').offset().top - 100
+                }, 500);
+            }, 1500);
+        });
+
+        // Phone number formatting
+        $('input[name="phone"]').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
     });
-    
-    // Phone number formatting
-    $('input[name="phone"]').on('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
-    });
-});
 </script>
 {% endblock main-content %}

@@ -50,11 +50,15 @@ function hideLoading() {
 }
 
 
-// Initialize AOS
-AOS.init({
-    duration: 1000,
-    once: true
-});
+// Initialize AOS only when the library is available.
+if (typeof AOS !== 'undefined') {
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+} else {
+    console.warn('AOS is not loaded; continuing without scroll animations.');
+}
 
 // Navbar active link
 $(document).ready(function () {
@@ -69,7 +73,7 @@ $(document).ready(function () {
 // ===== CART UPDATE HELPER =====
 function updateCartTotals(data, cartItem = null, price = null) {
     if (data.amount !== undefined) {
-        $('#subtotal').text('₹' + parseFloat(data.amount).toFixed(2));
+        $('#subtotal').text('₹'+parseFloat(data.amount).toFixed(2));
         $('#total').text('₹' + parseFloat(data.totalamount).toFixed(2));
 
         if ($('#gst').length) {
@@ -80,7 +84,7 @@ function updateCartTotals(data, cartItem = null, price = null) {
 
     if (cartItem && price && data.quantity) {
         const itemTotal = price * data.quantity;
-        cartItem.find('.item-total-amount').text('₹' + itemTotal.toFixed(2));
+        cartItem.find('.item-total-amount').text(itemTotal.toFixed(2));
     }
 
     if (data.totalitem !== undefined) {
@@ -193,7 +197,7 @@ function createAddressCard(address, counter) {
     var escapedEmail = escapeHtml(addressEmail);
 
     var card = $(`
-        <div class="col-md-6" data-aos="fade-up" data-aos-delay="${counter * 100}">
+        <div class="col-md-6">
             <div class="address-card card border-0 shadow-sm h-100" id="address-${addressId}" data-address-id="${addressId}">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                     <div>
@@ -206,7 +210,7 @@ function createAddressCard(address, counter) {
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item" href="/update-address/${addressId}/">
+                                <a class="dropdown-item" href="/updateaddress/${addressId}">
                                     <i class="fas fa-edit me-2 text-primary"></i>Edit
                                 </a>
                             </li>
@@ -226,7 +230,7 @@ function createAddressCard(address, counter) {
                 </div>
                 <div class="card-body">
                     <div class="address-details">
-                        <h6 class="fw-bold mb-3">${escapedName}</h6>
+                        <h6 class="fw-bold mb-3 text-black">${escapedName}</h6>
                         <div class="detail-item mb-2">
                             <i class="fas fa-map-pin text-muted me-2" style="width: 20px"></i>
                             <span>${escapedLocality}${escapedLocality && escapedCity ? ', ' : ''}${escapedCity}</span>
@@ -252,7 +256,7 @@ function createAddressCard(address, counter) {
                             <label class="form-check-label small" for="default${addressId}">Default Address</label>
                         </div>
                         <div class="action-buttons">
-                            <a href="/update-address/${addressId}/" class="btn btn-sm btn-outline-primary me-1">
+                            <a href="/updateaddress/${addressId}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <button class="btn btn-sm btn-outline-danger delete-address" data-address-id="${addressId}" data-address-name="${escapedName}">

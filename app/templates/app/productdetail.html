@@ -22,7 +22,7 @@
                 </div>
                 <div class="product-badge">
                     {% if product.discount_price < product.selling_price %}
-                    <span class="badge bg-danger">Save ₹{{product.selling_price|add:product.discount_price|cut:'-'}}</span>
+                    <span class="badge bg-danger">Save ₹{{save_price}}</span>
                     {% endif %}
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 {% if product.selling_price > product.discount_price %}
                 <p class="text-muted">
                     <span class="text-decoration-line-through">₹{{product.selling_price}}</span>
-                    <span class="badge bg-success ms-2">{{product.selling_price|add:product.discount_price|cut:'-'|floatformat:0}}% OFF</span>
+                    <span class="badge bg-success ms-2">{{save_percentage}}% OFF</span>
                 </p>
                 {% endif %}
             </div>

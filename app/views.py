@@ -13,6 +13,7 @@ import razorpay # type: ignore
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.db import transaction
 import os
 
 
@@ -179,7 +180,7 @@ def upload_profile_image(request):
 def address(request):
     totalitem = Cart.objects.filter(user=request.user).count()
     wishitem = Wishlist.objects.filter(user=request.user).count()
-    add = Customer.objects.filter(user=request.user)
+    addresses = Customer.objects.filter(user=request.user)
     form = CustomerProfileForm()
     return render(request, "app/address.html", locals())
 
@@ -235,17 +236,8 @@ def get_user_addresses(request):
     Returns JSON response with addresses array.
     """
     try:
-        # Get customer associated with logged-in user
-        # Adjust this based on your actual model structure
-        customer = Customer.objects.get(user=request.user)
-        
-        # Fetch addresses - adjust field names based on your model
-        # If addresses are stored directly in Customer model:
         addresses = Customer.objects.filter(user=request.user)
-        
-        # Or if you have a separate Address model:
-        # addresses = Address.objects.filter(customer=customer)
-        
+
         address_list = []
         for addr in addresses:
             address_list.append({
@@ -264,12 +256,6 @@ def get_user_addresses(request):
             'addresses': address_list,
             'count': len(address_list)
         })
-        
-    except Customer.DoesNotExist:
-        return JsonResponse({
-            'success': False,
-            'error': 'Customer profile not found'
-        }, status=404)
     except Exception as e:
         return JsonResponse({
             'success': False,
@@ -306,6 +292,8 @@ class ProductDetail(View):
     def get(self,request,pk):
         product=Product.objects.get(pk=pk)
         wishlist=Wishlist.objects.filter(Q(product=product)&Q(user=request.user))
+        save_price=product.selling_price - product.discount_price
+        save_percentage = 100 - (product.discount_price/product.selling_price * 100)
         totalitem=0
         wishitem=0
         if request.user.is_authenticated:
@@ -385,6 +373,19 @@ class checkout(View):
             payment.save()
         return render(request,"app/checkout.html",locals())
 
+
+def create_orders_from_cart(user, customer, payment):
+    cart_items = Cart.objects.filter(user=user)
+    for item in cart_items:
+        OrderPlaced.objects.create(
+            user=user,
+            customer=customer,
+            product=item.product,
+            quantity=item.quantity,
+            payment=payment
+        )
+    cart_items.delete()
+
 @login_required
 def orders(request):
     totalitem = Cart.objects.filter(user=request.user).count()
@@ -403,11 +404,47 @@ def payment_done(request):
     payment.paid=True
     payment.razorpay_payment_id=payment_id
     payment.save()
-    cart=Cart.objects.filter(user=user)
-    for c in cart:
-        OrderPlaced(user=user,customer=customer,product=c.product,quantity=c.quantity,payment=payment).save()
-        c.delete()
+    create_orders_from_cart(user, customer, payment)
     return redirect('orders')
+
+
+@login_required
+@require_POST
+def verify_payment(request):
+    try:
+        order_id = request.POST.get('razorpay_order_id')
+        payment_id = request.POST.get('razorpay_payment_id')
+        signature = request.POST.get('razorpay_signature')
+        cust_id = request.POST.get('cust_id')
+
+        if not all([order_id, payment_id, signature, cust_id]):
+            return JsonResponse({'success': False, 'error': 'Missing payment details'}, status=400)
+
+        customer = get_object_or_404(Customer, id=cust_id, user=request.user)
+        payment = get_object_or_404(Payment, razorpay_order_id=order_id, user=request.user)
+
+        if payment.paid:
+            return JsonResponse({'success': True, 'redirect_url': '/orders/'})
+
+        client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+        client.utility.verify_payment_signature({
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature,
+        })
+
+        with transaction.atomic():
+            payment.razorpay_payment_id = payment_id
+            payment.razorpay_payment_status = 'paid'
+            payment.paid = True
+            payment.save()
+            create_orders_from_cart(request.user, customer, payment)
+
+        return JsonResponse({'success': True, 'redirect_url': '/orders/'})
+    except razorpay.errors.SignatureVerificationError:
+        return JsonResponse({'success': False, 'error': 'Payment signature verification failed'}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 @login_required
 def plus_cart(request):
@@ -536,6 +573,6 @@ def show_wishlist(request):
     user = request.user
     totalitem = Cart.objects.filter(user=user).count()
     wishitem = Wishlist.objects.filter(user=user).count()
-    wishlist_items = Wishlist.objects.filter(user=user)
+    product = Wishlist.objects.filter(user=user)
     return render(request, "app/wishlist.html", locals())
 

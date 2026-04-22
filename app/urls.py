@@ -26,6 +26,7 @@ urlpatterns=[
     path('wishlist/',views.show_wishlist,name="showwishlist"),
     path('checkout/',views.checkout.as_view(),name="checkout"),
     path('paymentdone/',views.payment_done,name='paymentdone'),
+    path('verify-payment/', views.verify_payment, name='verify_payment'),
     path('orders/',views.orders,name="orders"),
     path('pluscart/',views.plus_cart),
     path('minuscart/',views.minus_cart),

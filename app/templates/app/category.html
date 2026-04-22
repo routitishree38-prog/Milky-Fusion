@@ -192,7 +192,7 @@
                                                 <span class="text-success fw-bold fs-4">₹{{prod.discount_price}}</span>
                                                 {% if prod.selling_price > prod.discount_price %}
                                                 <small class="text-muted text-decoration-line-through ms-2">₹{{prod.selling_price}}</small>
-                                                <span class="badge bg-success ms-2">Save ₹{{prod.selling_price|add:prod.discount_price|cut:'-'}}</span>
+                                                <span class="badge bg-success ms-2">Save ₹{{save_price}}</span>
                                                 {% endif %}
                                             </div>
                                             

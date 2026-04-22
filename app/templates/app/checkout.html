@@ -389,7 +389,10 @@ function selectAddress(addressId, element) {
     element.classList.add('selected');
     
     // Check the radio button
-    document.getElementById('custadd' + addressId).checked = true;
+    var radio = document.querySelector('input[name="custid"][value="' + addressId + '"]');
+    if (radio) {
+        radio.checked = true;
+    }
 }
 
 // Debug: Check if addresses exist
@@ -424,19 +427,47 @@ function initPayment() {
             "image": "{% static 'app/images/logo.png' %}",
             "order_id": "{{ order_id }}",
             "handler": function (response){
-                var form = document.getElementById("checkoutForm");
                 var selectedAddress = document.querySelector('input[name="custid"]:checked');
                 
-                if (selectedAddress) {
-                    window.location.href = `{% url 'paymentdone' %}?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&cust_id=${selectedAddress.value}`;
-                } else {
+                if (!selectedAddress) {
                     alert('Please select a shipping address');
+                    return;
                 }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'verify_payment' %}",
+                    data: {
+                        'razorpay_order_id': response.razorpay_order_id,
+                        'razorpay_payment_id': response.razorpay_payment_id,
+                        'razorpay_signature': response.razorpay_signature,
+                        'cust_id': selectedAddress.value,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').first().val()
+                    },
+                    success: function(data) {
+                        if (data.success && data.redirect_url) {
+                            window.location.href = data.redirect_url;
+                        } else {
+                            alert(data.error || 'Payment verified, but redirect failed.');
+                        }
+                    },
+                    error: function(xhr) {
+                        var message = 'Payment verification failed. Please contact support if amount was deducted.';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            message = xhr.responseJSON.error;
+                        }
+                        alert(message);
+                    }
+                });
             },
             "modal": {
                 "ondismiss": function() {
                     console.log('Payment modal closed');
                 }
+            },
+            "prefill": {
+                "name": "{{ request.user.get_full_name|default:request.user.username|escapejs }}",
+                "email": "{{ request.user.email|default:''|escapejs }}"
             },
             "theme": {
                 "color": "#2B5A3A"
